@@ -10,6 +10,12 @@ When pasting image into obsidian note:
 3. The pasted image will be stored in the new directory
 4. The pasted image's markdown link will display the image's concatenated name
 
+## Behind The Scene
+1. Create new directory
+2. Create the pasted image with Obsidian's auto generated name or original name
+3. Rename the pasted image in the same directory
+4. Move the pasted image to the new directory using the same method when renaming the pasted image (This helps avoiding triggering error in Obsidian's app.js and broken pasted image when initiate new directory and create the image in the new directory)
+
 ## Installation
 ```bash
 git clone https://github.com/MinhPham123456789/obsidian_image_pasting_management
