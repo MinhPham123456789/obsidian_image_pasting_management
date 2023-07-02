@@ -61,7 +61,7 @@ export default class ExamplePlugin extends Plugin {
 		// get image auto generated name
 		var fileName = file.basename + "_" + Date.now().toString(36) + "." + file.extension
 
-		this.saveFile(file, fileName, activeFile.path, relativeNoteImagePath)
+		this.saveFile(file, fileName, activeFilePath, relativeNoteImagePath)
 	}
 
 	async saveFile(file: TFile, inputNewName: string, sourcePath: string, imagePath: string) {
@@ -75,7 +75,16 @@ export default class ExamplePlugin extends Plugin {
 		
 
 		// file system operation: rename the file
+		const oldPath = sourcePath + "/" + inputNewName
 		const newPath = imagePath + "/" + inputNewName
+		// console.log(newPath)
+		try {
+			await this.app.fileManager.renameFile(file, oldPath)
+		} catch (err) {
+			new Notice(`Error: ${err}`)
+			throw err
+		}
+
 		try {
 			await this.app.fileManager.renameFile(file, newPath)
 		} catch (err) {
@@ -83,8 +92,7 @@ export default class ExamplePlugin extends Plugin {
 			throw err
 		}
 
-		const newLinkText = this.app.fileManager.generateMarkdownLink(file, sourcePath)
-	
+		const newLinkText = this.app.fileManager.generateMarkdownLink(file, imagePath)
 		const view = this.app.workspace.getActiveFileView(MarkdownView)
 		if (view){
 			const cursor = view.editor.getCursor()
@@ -106,6 +114,7 @@ export default class ExamplePlugin extends Plugin {
 			new Notice(`Failed to rename ${newName}: no active editor`)
 			return
 		}
+	
 	}
 }
 
