@@ -65,11 +65,6 @@ export default class ExamplePlugin extends Plugin {
 	}
 
 	async saveFile(file: TFile, inputNewName: string, sourcePath: string, imagePath: string) {
-		// deduplicate name
-		// const { name:newName } = await this.deduplicateNewName(inputNewName, file)
-		// debugLog('deduplicated newName:', newName)
-		// const originName = file.name
-
 		// generate linkText using Obsidian API, linkText is either  ![](filename.png) or ![[filename.png]] according to the "Use [[Wikilinks]]" setting.
 		const linkText = this.app.fileManager.generateMarkdownLink(file, sourcePath)
 		
