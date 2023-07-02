@@ -78,6 +78,8 @@ export default class ExamplePlugin extends Plugin {
 		const oldPath = sourcePath + "/" + inputNewName
 		const newPath = imagePath + "/" + inputNewName
 		// console.log(newPath)
+
+		// Put the image to the Obsidian's setting directory
 		try {
 			await this.app.fileManager.renameFile(file, oldPath)
 		} catch (err) {
@@ -85,6 +87,7 @@ export default class ExamplePlugin extends Plugin {
 			throw err
 		}
 
+		// Then move the image to the new directory, avoid triggering error in Obsidian's app.js and broken image when initiating directory in 1st pasting
 		try {
 			await this.app.fileManager.renameFile(file, newPath)
 		} catch (err) {
@@ -92,6 +95,7 @@ export default class ExamplePlugin extends Plugin {
 			throw err
 		}
 
+		// Update the markdown link in the note
 		const newLinkText = this.app.fileManager.generateMarkdownLink(file, imagePath)
 		const view = this.app.workspace.getActiveFileView(MarkdownView)
 		if (view){
